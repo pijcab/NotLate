@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/clockSetter"
+    android:orientation="vertical"
+    tools:context="com.projet.e4fi.notlate.ClockSetting"
+    android:background="@android:color/background_light">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/timePicker"
+        android:headerBackground="@color/colorPrimaryDark"
+        android:numbersSelectorColor="@color/colorPrimary" />
+
+    <Switch
+        android:text="@string/activ"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/switch1"
+        android:layout_margin="50dp" />
+
+</LinearLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NotLate</string>
+    <string name="title_activity_clock">Clock</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="activ">Activé</string>
 </resources>
