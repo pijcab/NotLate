@@ -1,26 +1,155 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/clockSetter"
-    android:orientation="vertical"
-    tools:context="com.projet.e4fi.notlate.ClockSetting"
-    android:background="@android:color/background_light">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TimePicker
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/clockSetter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:headerBackground="@color/colorPrimaryDark"
-        android:numbersSelectorColor="@color/colorPrimary" />
+        android:background="@android:color/background_light"
+        android:orientation="vertical"
+        tools:context="com.projet.e4fi.notlate.ClockSetting">
 
-    <Switch
-        android:text="@string/activ"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/switch1"
-        android:layout_margin="50dp" />
+        <!-- TODO: Update blank fragment layout -->
 
-</LinearLayout>
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/top_bottom_margin"
+            android:layout_weight="1"
+            android:headerBackground="@color/colorPrimary"
+            android:numbersSelectorColor="@color/colorPrimary" />
+
+
+        <TextView
+            android:id="@+id/Destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/left_right_margin"
+            android:layout_marginRight="@dimen/left_right_margin"
+            android:layout_weight="1"
+            android:background="@drawable/default_text_border"
+            android:hint="@string/destination"
+            android:layout_marginBottom="@dimen/top_bottom_margin" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:id="@+id/postal_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/default_text_border"
+                android:hint="@string/destination"
+                android:layout_marginBottom="@dimen/top_bottom_margin"
+                android:layout_marginStart="@dimen/top_bottom_margin"
+                android:layout_marginEnd="@dimen/top_bottom_margin" />
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/default_text_border"
+                android:hint="@string/destination"
+                android:layout_marginBottom="@dimen/top_bottom_margin"
+                android:layout_marginStart="@dimen/top_bottom_margin"
+                android:layout_marginEnd="@dimen/top_bottom_margin" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/mean_transport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/left_right_margin"
+            android:layout_marginRight="@dimen/left_right_margin"
+            android:layout_weight="1"
+            android:background="@drawable/default_text_border"
+            android:entries="@array/sonnerie"
+            android:layout_marginBottom="@dimen/top_bottom_margin" />
+
+        <Spinner
+            android:id="@+id/to_evade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/left_right_margin"
+            android:layout_marginRight="@dimen/left_right_margin"
+            android:layout_weight="1"
+            android:background="@drawable/default_text_border"
+            android:entries="@array/sonnerie"
+            android:layout_marginBottom="@dimen/top_bottom_margin" />
+
+        <LinearLayout
+            android:id="@+id/days_to_ring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/toggleButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mardi" />
+
+            <ToggleButton
+                android:id="@+id/toggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ToggleButton" />
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/ring_tone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/left_right_margin"
+            android:layout_marginRight="@dimen/left_right_margin"
+            android:layout_weight="1"
+            android:background="@drawable/default_text_border"
+            android:entries="@array/sonnerie" />
+
+        <LinearLayout
+            android:id="@+id/bottom_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ok" />
+
+            <Button
+                android:id="@+id/button_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retour" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

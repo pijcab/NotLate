@@ -3,8 +3,8 @@
 
     <objectAnimator
         android:duration="@android:integer/config_mediumAnimTime"
-        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
-        android:propertyName="yFraction"
+        android:interpolator="@android:anim/overshoot_interpolator"
+        android:propertyName="scaleY"
         android:valueFrom="0"
         android:valueTo="1" />
 

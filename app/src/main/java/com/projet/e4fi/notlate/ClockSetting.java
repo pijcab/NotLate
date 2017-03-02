@@ -2,30 +2,40 @@ package com.projet.e4fi.notlate;
 
 import android.app.DialogFragment;
 import android.content.Context;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TimePicker;
 
 public class ClockSetting extends Fragment {
+    private TimePicker timer;
 
     public ClockSetting() {
         // Required empty public constructor
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //Initialize resources used by your fragment except those related to the user interface.
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clock_setting, container, false);
+        View res = inflater.inflate(R.layout.fragment_clock_setting, container, false);
+        timer = (TimePicker) res.findViewById(R.id.timePicker);
+        timer.setIs24HourView(true);
+        timer.setCurrentHour(Calendar.HOUR_OF_DAY);
+        return res;
     }
 
 
@@ -51,4 +61,5 @@ public class ClockSetting extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
+
 }

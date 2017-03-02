@@ -5,4 +5,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="activ">Activé</string>
+    <string name="destination">Entrez Votre Destination ici...</string>
+    <string name="retour">Retour</string>
+    <string name="ok">Ok</string>
+    <string name="sonnerie">Sonnerie</string>
+    <string name="actionListTitle">Liste des Actions</string>
+
+
+    <string-array name="sonnerie">
+        <item>Zelda theme</item>
+        <item>Mario theme</item>
+        <item>Dragon Ball Z OST</item>
+        <item>Samba De Janeiro</item>
+    </string-array>
+
+    <string-array name="evade">
+        <item>Péages</item>
+        <item>Autoroutes</item>
+        <item>Dragon Ball Z OST</item>
+        <item>Samba De Janeiro</item>
+    </string-array>
 </resources>
