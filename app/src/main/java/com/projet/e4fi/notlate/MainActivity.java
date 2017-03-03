@@ -7,16 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ClockSetterFragment.addClockToActivity {
     private FloatingActionButton buttonAdd;
-    private RelativeLayout mainView;
     private ListView clockList;
-    private CustomFrameLayout frame;
     private ClockSetterFragment clockSetter;
     private ArrayList<Clock> savedClocks;
     private ClocksAdapter clocksAdapter;
@@ -28,16 +25,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getFragmentManager();
 
-        mainView = (RelativeLayout) findViewById(R.id.activity_main);
         clockList = (ListView) findViewById(R.id.clock_list);
         buttonAdd = (FloatingActionButton) findViewById(R.id.add_clock_button);
 
         Clock test = new Clock();
         test.setName("TEST");
-        test.setArrivalDate(Calendar.getInstance().getTime());
+        test.setArrivalHour(Calendar.getInstance().getTime().getHours());
+        test.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
         Clock test2 = new Clock();
-        test2.setName("TEST 2");
-        test2.setArrivalDate(Calendar.getInstance().getTime());
+        test2.setArrivalHour(Calendar.getInstance().getTime().getHours());
+        test2.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
 
         savedClocks = new ArrayList<Clock>();
         savedClocks.add(test);
@@ -49,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("TAG", "onClick: button CLICKED");
                 buttonAdd.hide();
-                Clock clock = new Clock();
 
                 clockSetter = new ClockSetterFragment();
                 fragmentManager.beginTransaction()
@@ -59,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                         .addToBackStack(null)
                         .add(R.id.fragmentFrame, clockSetter, "clockSetterFragment")
                         .commit();
-
 
 //                frame = new CustomFrameLayout(getApplicationContext());
 //                frame.setLayoutParams(new FrameLayout.LayoutParams(
@@ -73,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         clockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 clockSetter = new ClockSetterFragment();
                 clockSetter.setDisplayedClock((Clock) clockList.getItemAtPosition(position));
 
@@ -112,18 +107,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<Clock> getSavedClocks() {
-        return savedClocks;
+    @Override
+    public void addClock(Clock clock) {
+        savedClocks.add(clock);
     }
 
-    public void setSavedClocks(ArrayList<Clock> savedClocks) {
-        this.savedClocks = savedClocks;
-    }
-
-    private static void toggleVisibility(View... views) {
-        for (View view : views) {
-            boolean isVisible = view.getVisibility() == View.VISIBLE;
-            view.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
-        }
-    }
+//    private static void toggleVisibility(View... views) {
+//        for (View view : views) {
+//            boolean isVisible = view.getVisibility() == View.VISIBLE;
+//            view.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+//        }
+//    }
 }

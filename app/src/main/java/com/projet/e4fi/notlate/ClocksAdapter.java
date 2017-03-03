@@ -29,7 +29,7 @@ class ClocksAdapter extends ArrayAdapter {
 
         if (clock != null) {
             clockName.setText(clock.getName());
-            arrivalHour.setText(clock.getArrivalDateString());
+            arrivalHour.setText(clock.getArrivalHour() + ":" + clock.getArrivalMinute());
         }
         return convertView;
     }

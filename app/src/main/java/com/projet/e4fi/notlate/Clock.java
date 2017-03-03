@@ -9,32 +9,30 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Clock {
+    final static int MONDAY = 0;
+    final static int TUESDAY = 1;
+    final static int WEDNESDAY = 2;
+    final static int THURSDAY = 3;
+    final static int FRIDAY = 4;
+    final static int SATURDAY = 5;
+    final static int SUNDAY = 6;
+
     private String name;
     private Date arrivalDate;
     private SimpleDateFormat dateFormat;
+    private int arrivalHour;
+    private int arrivalMinute;
     private int wakeUpTime;
     private boolean[] daysToRing;
     private String destination;
-    private String city;
-    private String postalCode;
+    private String selectedTransport;
+    private String selectedAvoid;
+    private String ringTone;
     private List<Action> actionsList;
-    public final static int MONDAY = 0;
-    public final static int TUESDAY = 1;
-    public final static int WEDNESDAY = 2;
-    public final static int THURSDAY = 3;
-    public final static int FRIDAY = 4;
-    public final static int SATURDAY = 5;
 
     public void setDaysToRing(boolean[] daysToRing) {
         this.daysToRing = daysToRing;
     }
-
-    public final static int SUNDAY = 6;
-
-
-    public enum meanOfTransport {Null, Car, Bicycle, Foot}
-
-    public enum toAvoid {Null, Toll, Highway, Ferry}
 
     public HashMap<String, Integer> actions;
 
@@ -56,23 +54,44 @@ public class Clock {
         this.name = name;
     }
 
-    public int getArrivalDateHour() {
-        dateFormat.applyPattern("HH");
-        return Integer.getInteger(dateFormat.format(arrivalDate));
+    public String getSelectedTransport() {
+        return selectedTransport;
     }
 
-    public int getArrivalDateMinute() {
-        dateFormat.applyPattern("mm");
-        return Integer.getInteger(dateFormat.format(arrivalDate));
+    public void setSelectedTransport(String selectedTransport) {
+        this.selectedTransport = selectedTransport;
     }
 
-    public String getArrivalDateString() {
-        dateFormat.applyPattern("HH:mm");
-        return dateFormat.format(arrivalDate);
+    public String getSelectedAvoid() {
+        return selectedAvoid;
     }
 
-    public void setArrivalDate(Date arrivalDate) {
-        this.arrivalDate = arrivalDate;
+    public void setSelectedAvoid(String selectedAvoid) {
+        this.selectedAvoid = selectedAvoid;
+    }
+
+    public int getArrivalHour() {
+        return arrivalHour;
+    }
+
+    public void setArrivalHour(int arrivalHour) {
+        this.arrivalHour = arrivalHour;
+    }
+
+    public int getArrivalMinute() {
+        return arrivalMinute;
+    }
+
+    public void setArrivalMinute(int arrivalMinute) {
+        this.arrivalMinute = arrivalMinute;
+    }
+
+    public String getRingTone() {
+        return ringTone;
+    }
+
+    public void setRingTone(String ringTone) {
+        this.ringTone = ringTone;
     }
 
     public String getDestination() {
@@ -81,22 +100,6 @@ public class Clock {
 
     public void setDestination(String destination) {
         this.destination = destination;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
     }
 
     public List<Action> getActionsList() {
