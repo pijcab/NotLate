@@ -1,12 +1,17 @@
 package com.projet.e4fi.notlate;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class Clock {
+    private String name;
     private Date arrivalDate;
+    private SimpleDateFormat dateFormat;
     private int wakeUpTime;
     private boolean[] daysToRing;
     private String destination;
@@ -33,16 +38,37 @@ public class Clock {
 
     public HashMap<String, Integer> actions;
 
+    @SuppressLint("SimpleDateFormat")
     public Clock() {
-        arrivalDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy HH:mm");
+        Calendar cal = Calendar.getInstance();
+        arrivalDate = cal.getTime();
+        dateFormat = new SimpleDateFormat();
         daysToRing = new boolean[7];
         //For string date : String date = dateFormat.format(myDate);
 
     }
 
-    public Date getArrivalDate() {
-        return arrivalDate;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getArrivalDateHour() {
+        dateFormat.applyPattern("HH");
+        return Integer.getInteger(dateFormat.format(arrivalDate));
+    }
+
+    public int getArrivalDateMinute() {
+        dateFormat.applyPattern("mm");
+        return Integer.getInteger(dateFormat.format(arrivalDate));
+    }
+
+    public String getArrivalDateString() {
+        dateFormat.applyPattern("HH:mm");
+        return dateFormat.format(arrivalDate);
     }
 
     public void setArrivalDate(Date arrivalDate) {

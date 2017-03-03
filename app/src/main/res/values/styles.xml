@@ -6,14 +6,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@android:color/background_dark</item>
+        <item name="android:dropDownListViewStyle">@style/AppTheme.MyListView</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
-
-    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+    <style name="AppTheme.MyListView" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:listSelector">@android:drawable/arrow_down_float</item>
+    </style>
 
 </resources>

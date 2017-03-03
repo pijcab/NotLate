@@ -1,18 +1,17 @@
 package com.projet.e4fi.notlate;
 
-import javax.xml.datatype.Duration;
-
 public class Action {
     private String name;
-    private Duration duration;
+    private int hours;
+    private int minutes;
 
     public Action() {
     }
 
-    public Action(String _name, Duration _duration) {
-        name = _name;
-        _duration = duration;
-
+    public Action(String name, int hours, int minutes) {
+        this.name = name;
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
     public String getName() {
@@ -23,12 +22,19 @@ public class Action {
         this.name = name;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public int getHours() {
+        return hours;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setHours(int hours) {
+        this.hours = hours;
     }
 
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
 }

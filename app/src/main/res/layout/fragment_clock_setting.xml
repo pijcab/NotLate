@@ -1,155 +1,211 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/clockSetter"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/background_light"
-        android:orientation="vertical"
-        tools:context="com.projet.e4fi.notlate.ClockSetting">
+        android:layout_height="match_parent"
+        tools:context="com.projet.e4fi.notlate.ClockSetterFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/top_bottom_margin"
-            android:layout_weight="1"
-            android:headerBackground="@color/colorPrimary"
-            android:numbersSelectorColor="@color/colorPrimary" />
-
-
-        <TextView
-            android:id="@+id/Destination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/left_right_margin"
-            android:layout_marginRight="@dimen/left_right_margin"
-            android:layout_weight="1"
-            android:background="@drawable/default_text_border"
-            android:hint="@string/destination"
-            android:layout_marginBottom="@dimen/top_bottom_margin" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/clockSetter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp">
+            android:background="@android:color/background_light"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/postal_code"
+            <TimePicker
+                android:id="@+id/timePicker"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/top_bottom_margin"
+                android:layout_weight="1"
+                android:headerBackground="@color/colorPrimary"
+                android:numbersSelectorColor="@color/colorPrimary" />
+
+
+            <EditText
+                android:id="@+id/Destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/top_bottom_margin"
+                android:layout_marginLeft="@dimen/left_right_margin"
+                android:layout_marginRight="@dimen/left_right_margin"
                 android:layout_weight="1"
                 android:background="@drawable/default_text_border"
-                android:hint="@string/destination"
-                android:layout_marginBottom="@dimen/top_bottom_margin"
-                android:layout_marginStart="@dimen/top_bottom_margin"
-                android:layout_marginEnd="@dimen/top_bottom_margin" />
+                android:hint="@string/destination" />
 
-            <TextView
-                android:id="@+id/city"
+            <Spinner
+                android:id="@+id/mean_transport"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/top_bottom_margin"
+                android:layout_marginLeft="@dimen/left_right_margin"
+                android:layout_marginRight="@dimen/left_right_margin"
                 android:layout_weight="1"
                 android:background="@drawable/default_text_border"
-                android:hint="@string/destination"
+                android:entries="@array/transport" />
+
+            <Spinner
+                android:id="@+id/to_evade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/top_bottom_margin"
-                android:layout_marginStart="@dimen/top_bottom_margin"
-                android:layout_marginEnd="@dimen/top_bottom_margin" />
-
-        </LinearLayout>
-
-        <Spinner
-            android:id="@+id/mean_transport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/left_right_margin"
-            android:layout_marginRight="@dimen/left_right_margin"
-            android:layout_weight="1"
-            android:background="@drawable/default_text_border"
-            android:entries="@array/sonnerie"
-            android:layout_marginBottom="@dimen/top_bottom_margin" />
-
-        <Spinner
-            android:id="@+id/to_evade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/left_right_margin"
-            android:layout_marginRight="@dimen/left_right_margin"
-            android:layout_weight="1"
-            android:background="@drawable/default_text_border"
-            android:entries="@array/sonnerie"
-            android:layout_marginBottom="@dimen/top_bottom_margin" />
-
-        <LinearLayout
-            android:id="@+id/days_to_ring"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ToggleButton
-                android:id="@+id/toggleButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ToggleButton" />
-
-            <ToggleButton
-                android:id="@+id/toggleButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mardi" />
-
-            <ToggleButton
-                android:id="@+id/toggleButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ToggleButton" />
-        </LinearLayout>
-
-        <Spinner
-            android:id="@+id/ring_tone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/left_right_margin"
-            android:layout_marginRight="@dimen/left_right_margin"
-            android:layout_weight="1"
-            android:background="@drawable/default_text_border"
-            android:entries="@array/sonnerie" />
-
-        <LinearLayout
-            android:id="@+id/bottom_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/left_right_margin"
+                android:layout_marginRight="@dimen/left_right_margin"
                 android:layout_weight="1"
-                android:text="@string/ok" />
+                android:background="@drawable/default_text_border"
+                android:entries="@array/evade" />
 
-            <Button
-                android:id="@+id/button_return"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/days_to_ring"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/left_right_margin"
+                android:layout_marginStart="@dimen/left_right_margin"
                 android:layout_weight="1"
-                android:text="@string/retour" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ToggleButton
+                    android:id="@+id/lundi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="L"
+                    android:textOn="L" />
+
+                <ToggleButton
+                    android:id="@+id/mardi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="Ma"
+                    android:textOn="Ma" />
+
+                <ToggleButton
+                    android:id="@+id/mercredi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="Me"
+                    android:textOn="Me" />
+
+                <ToggleButton
+                    android:id="@+id/jeudi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="J"
+                    android:textOn="J" />
+
+                <ToggleButton
+                    android:id="@+id/vendredi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="V"
+                    android:textOn="V" />
+
+                <ToggleButton
+                    android:id="@+id/samedi_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="S"
+                    android:textOn="S" />
+
+                <ToggleButton
+                    android:id="@+id/dimanche_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textOff="D"
+                    android:textOn="D" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/ring_tone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/left_right_margin"
+                android:layout_marginStart="@dimen/left_right_margin"
+                android:layout_weight="1"
+                android:background="@drawable/default_text_border"
+                android:dropDownSelector="@android:drawable/arrow_down_float"
+                android:entries="@array/sonnerie" />
+
+
+            <LinearLayout
+                android:id="@+id/actions_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/left_right_margin"
+                android:layout_marginStart="@dimen/left_right_margin"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/action_duration_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="Durée des actions : "
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/action_duration_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black" />
+
+                <ImageButton
+                    android:id="@+id/actions_edit_button"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/default_edit_border"
+                    android:src="@android:drawable/ic_menu_edit" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottom_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ok" />
+
+                <Button
+                    android:id="@+id/button_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/retour" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
+    <FrameLayout
+        android:id="@+id/actions_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
-</ScrollView>
+</RelativeLayout>

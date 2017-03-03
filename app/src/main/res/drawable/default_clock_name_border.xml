@@ -9,4 +9,7 @@
         android:left="3dp"
         android:right="3dp"
         android:top="3dp" />
+
+    <corners android:radius="3dp" />
+    <solid android:color="@color/colorPrimary" />
 </shape>

@@ -1,95 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/actions_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <ListView
         android:id="@+id/actions_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <LinearLayout
-            android:id="@+id/action"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/action_name"
-                android:layout_width="180dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-
-                android:background="@drawable/default_text_border"
-                android:gravity="center_vertical"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/action_hour"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/default_text_border"
-                android:gravity="center_vertical"
-                android:text="00"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/colon"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text=":"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/action_minute"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/default_text_border"
-                android:gravity="center_vertical"
-                android:text="15"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </LinearLayout>
+    </ListView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_action"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/actions_list"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
         android:tint="@android:color/white"
         app:borderWidth="0dp"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:fabSize="mini" />
 
     <LinearLayout
         android:id="@+id/bottom_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/actions_list"
-        android:layout_weight="9"
         android:orientation="horizontal">
 
         <Button
