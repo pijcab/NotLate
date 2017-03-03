@@ -1,9 +1,9 @@
 package com.projet.e4fi.notlate;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,7 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements ClockSetterFragment.addClockToActivity {
+public class MainActivity extends Activity implements ClockSetterFragment.addClockToActivity {
     private FloatingActionButton buttonAdd;
     private ListView clockList;
     private ClockSetterFragment clockSetter;
@@ -29,10 +29,11 @@ public class MainActivity extends AppCompatActivity implements ClockSetterFragme
         buttonAdd = (FloatingActionButton) findViewById(R.id.add_clock_button);
 
         Clock test = new Clock();
-        test.setName("TEST");
+        test.setDestination("TEST");
         test.setArrivalHour(Calendar.getInstance().getTime().getHours());
         test.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
         Clock test2 = new Clock();
+        test2.setDestination("TEST BATAARD");
         test2.setArrivalHour(Calendar.getInstance().getTime().getHours());
         test2.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
 
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements ClockSetterFragme
             public void onClick(View v) {
                 buttonAdd.hide();
 
+                Clock newClock = new Clock();
                 clockSetter = new ClockSetterFragment();
+                clockSetter.setClockInstance(newClock);
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.animator.enter_grow, R.animator.exit_shrink, R.animator.enter_grow, R.animator.exit_shrink)
                         .addToBackStack(null)
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ClockSetterFragme
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 clockSetter = new ClockSetterFragment();
-                clockSetter.setDisplayedClock((Clock) clockList.getItemAtPosition(position));
+                clockSetter.setClockInstance((Clock) clockList.getItemAtPosition(position));
 
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.animator.enter_grow, R.animator.exit_shrink, R.animator.enter_grow, R.animator.exit_shrink)
@@ -78,18 +81,6 @@ public class MainActivity extends AppCompatActivity implements ClockSetterFragme
                         .commit();
             }
         });
-
-                /*
-                FragmentManager fragmentManager = getFragmentManager();
-                clockSetter = new ClockSetterFragment();
-                //fragmentManager.beginTransaction().add(frame.getId(), new ClockSetterFragment())
-                fragmentManager.beginTransaction().add(frame.getId(), clockSetter)
-                .commit();
-                toggleVisibility(clockList);
-                //clockSetter = fragmentManager.findFragmentById(R.id.clockSetter);
-                */
-
-
     }
 
     @Override
@@ -110,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements ClockSetterFragme
     @Override
     public void addClock(Clock clock) {
         savedClocks.add(clock);
+        clocksAdapter.notifyDataSetChanged();
     }
-
 //    private static void toggleVisibility(View... views) {
 //        for (View view : views) {
 //            boolean isVisible = view.getVisibility() == View.VISIBLE;

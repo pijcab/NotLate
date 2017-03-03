@@ -24,11 +24,11 @@ class ClocksAdapter extends ArrayAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.clock_element, parent, false);
         }
-        TextView clockName = (TextView) convertView.findViewById(R.id.clock_name);
+        TextView clockName = (TextView) convertView.findViewById(R.id.clock_destination);
         TextView arrivalHour = (TextView) convertView.findViewById(R.id.clock_time);
 
         if (clock != null) {
-            clockName.setText(clock.getName());
+            clockName.setText(clock.getDestination());
             arrivalHour.setText(clock.getArrivalHour() + ":" + clock.getArrivalMinute());
         }
         return convertView;

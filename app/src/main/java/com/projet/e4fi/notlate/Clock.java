@@ -2,11 +2,9 @@ package com.projet.e4fi.notlate;
 
 import android.annotation.SuppressLint;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class Clock {
     final static int MONDAY = 0;
@@ -17,18 +15,17 @@ public class Clock {
     final static int SATURDAY = 5;
     final static int SUNDAY = 6;
 
-    private String name;
-    private Date arrivalDate;
-    private SimpleDateFormat dateFormat;
     private int arrivalHour;
     private int arrivalMinute;
     private int wakeUpTime;
+    private boolean isActivated;
     private boolean[] daysToRing;
     private String destination;
+    private String depart;
     private String selectedTransport;
     private String selectedAvoid;
     private String ringTone;
-    private List<Action> actionsList;
+    private ArrayList<Action> actionsList;
 
     public void setDaysToRing(boolean[] daysToRing) {
         this.daysToRing = daysToRing;
@@ -39,19 +36,16 @@ public class Clock {
     @SuppressLint("SimpleDateFormat")
     public Clock() {
         Calendar cal = Calendar.getInstance();
-        arrivalDate = cal.getTime();
-        dateFormat = new SimpleDateFormat();
+        arrivalHour = cal.getTime().getHours();
+        arrivalMinute = cal.getTime().getMinutes();
+        isActivated = true;
         daysToRing = new boolean[7];
-        //For string date : String date = dateFormat.format(myDate);
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        destination = "";
+        depart = "";
+        selectedAvoid = "";
+        selectedTransport = "";
+        ringTone = "";
+        actionsList = new ArrayList<>();
     }
 
     public String getSelectedTransport() {
@@ -98,15 +92,31 @@ public class Clock {
         return destination;
     }
 
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+
     public void setDestination(String destination) {
         this.destination = destination;
     }
 
-    public List<Action> getActionsList() {
+    public String getDepart() {
+        return depart;
+    }
+
+    public void setDepart(String depart) {
+        this.depart = depart;
+    }
+
+    public ArrayList<Action> getActionsList() {
         return actionsList;
     }
 
-    public void setActionsList(List<Action> actionsList) {
+    public void setActionsList(ArrayList<Action> actionsList) {
         this.actionsList = actionsList;
     }
 
