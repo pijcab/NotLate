@@ -34,8 +34,9 @@ public class ClockSetterFragment extends Fragment {
     private ToggleButton samedi;
     private ToggleButton dimanche;
     private Button okButton;
+    private Button backButton;
     private TextView actionDuration;
-    public addClockToActivity addClockInterface;
+    public notifyClockChangeToActivity notifyClockInterface;
 
     private ImageButton actionsEdit;
     private ActionsSetterFragment actionSetter;
@@ -50,7 +51,6 @@ public class ClockSetterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = getActivity();
         fragmentManager = mainActivity.getFragmentManager();
-
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ClockSetterFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            addClockInterface = (addClockToActivity) activity;
+            notifyClockInterface = (notifyClockChangeToActivity) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnHeadlineSelectedListener");
@@ -73,11 +73,13 @@ public class ClockSetterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View res = inflater.inflate(R.layout.fragment_clock_setting, container, false);
 
+        //region finding all the Views
         timer = (TimePicker) res.findViewById(R.id.timePicker);
         timer.setIs24HourView(true);
         timer.setCurrentHour(Calendar.HOUR_OF_DAY);
         actionsEdit = (ImageButton) res.findViewById(R.id.actions_edit_button);
         okButton = (Button) res.findViewById(R.id.button_ok);
+        backButton = (Button) res.findViewById(R.id.button_return);
         lundi = (ToggleButton) res.findViewById(R.id.lundi_button);
         mardi = (ToggleButton) res.findViewById(R.id.mardi_button);
         mercredi = (ToggleButton) res.findViewById(R.id.mercredi_button);
@@ -90,13 +92,14 @@ public class ClockSetterFragment extends Fragment {
         ringTone = (Spinner) res.findViewById(R.id.ring_tone);
         destination = (EditText) res.findViewById((R.id.Destination));
         depart = (EditText) res.findViewById((R.id.Depart));
-        actionDuration = (TextView) res.findViewById((R.id.action_duration));
+        actionDuration = (TextView) res.findViewById((R.id.action_duration_value));
+        //endregion
 
+        setDisplayedClock();
 
         actionsEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 actionSetter = new ActionsSetterFragment();
                 actionSetter.setClockInstance(clockInstance);
                 fragmentManager
@@ -114,14 +117,24 @@ public class ClockSetterFragment extends Fragment {
                 computeWakeUpTime();
                 setOptionsToClock(clockInstance);
                 activateClock();
-                addClockInterface.addClock(clockInstance);
+                notifyClockInterface.notififyClockListChange(clockInstance);
                 fragmentManager.popBackStack();
                 ((FloatingActionButton) mainActivity.findViewById(R.id.add_clock_button)).show();
             }
 
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.popBackStack();
+                ((FloatingActionButton) mainActivity.findViewById(R.id.add_clock_button)).show();
+            }
+        });
+
         return res;
     }
+
 
     public void computeWakeUpTime() {
     }
@@ -137,25 +150,25 @@ public class ClockSetterFragment extends Fragment {
 
         boolean[] tab = new boolean[7];
         if (lundi.isChecked()) {
-            tab[0] = true;
+            tab[Clock.MONDAY] = true;
         }
         if (mardi.isChecked()) {
-            tab[1] = true;
+            tab[Clock.TUESDAY] = true;
         }
         if (mercredi.isChecked()) {
-            tab[2] = true;
+            tab[Clock.WEDNESDAY] = true;
         }
         if (jeudi.isChecked()) {
-            tab[3] = true;
+            tab[Clock.THURSDAY] = true;
         }
         if (vendredi.isChecked()) {
-            tab[4] = true;
+            tab[Clock.FRIDAY] = true;
         }
         if (samedi.isChecked()) {
-            tab[5] = true;
+            tab[Clock.SATURDAY] = true;
         }
         if (dimanche.isChecked()) {
-            tab[6] = true;
+            tab[Clock.SUNDAY] = true;
         }
         clock.setDaysToRing(tab);
 
@@ -165,8 +178,8 @@ public class ClockSetterFragment extends Fragment {
 
     }
 
-    public interface addClockToActivity {
-        void addClock(Clock clock);
+    public interface notifyClockChangeToActivity {
+        void notififyClockListChange(Clock clock);
     }
 
     public TextView getActionDuration() {
@@ -187,24 +200,25 @@ public class ClockSetterFragment extends Fragment {
         timer.setCurrentMinute(clockInstance.getArrivalMinute());
         destination.setText(clockInstance.getDestination());
 //    ringTone.setSelection();
-
-        lundi.setChecked(clockInstance.getDaysToRing()[clockInstance.MONDAY]);
-        mardi.setChecked(clockInstance.getDaysToRing()[clockInstance.TUESDAY]);
-        mercredi.setChecked(clockInstance.getDaysToRing()[clockInstance.WEDNESDAY]);
-        jeudi.setChecked(clockInstance.getDaysToRing()[clockInstance.THURSDAY]);
-        vendredi.setChecked(clockInstance.getDaysToRing()[clockInstance.FRIDAY]);
-        samedi.setChecked(clockInstance.getDaysToRing()[clockInstance.SATURDAY]);
-        dimanche.setChecked(clockInstance.getDaysToRing()[clockInstance.SUNDAY]);
-
         boolean[] tab = clockInstance.getDaysToRing();
+        lundi.setChecked(tab[Clock.MONDAY]);
+        mardi.setChecked(tab[Clock.TUESDAY]);
+        mercredi.setChecked(tab[Clock.WEDNESDAY]);
+        jeudi.setChecked(tab[Clock.THURSDAY]);
+        vendredi.setChecked(tab[Clock.FRIDAY]);
+        samedi.setChecked(tab[Clock.SATURDAY]);
+        dimanche.setChecked(tab[Clock.SUNDAY]);
 
-        lundi.setChecked(tab[0]);
-        mardi.setChecked(tab[1]);
-        mercredi.setChecked(tab[2]);
-        jeudi.setChecked(tab[3]);
-        vendredi.setChecked(tab[4]);
-        samedi.setChecked(tab[5]);
-        dimanche.setChecked(tab[6]);
+        int sumHour = 0;
+        int sumMinutes = 0;
+        for (Action a : clockInstance.getActionsList()) {
+            sumHour += a.getHours();
+            sumMinutes += a.getMinutes();
+        }
+
+        actionDuration.setText(sumHour + ":" + sumMinutes);
+
+
 //        toEvade.setSelection(clockInstance.getSelectedAvoid());
 //        transport.setSelection(clockInstance.getSelectedTransport());
 

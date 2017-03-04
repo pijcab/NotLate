@@ -4,13 +4,20 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="5dp"
-    android:paddingTop="5dp"
-    android:paddingEnd="5dp">
+    android:paddingEnd="5dp"
+    android:clickable="false"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="60dp"
         android:layout_height="50dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/clock_512" />
@@ -20,16 +27,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_weight="5"
         android:background="@drawable/default_text_border"
+        android:maxWidth="50dp"
         android:text="Nom"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:maxWidth="50dp" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/clock_time"
@@ -38,6 +48,9 @@
         android:layout_gravity="center"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:layout_weight="3"
         android:inputType="time"
         android:text="Heure"
@@ -52,10 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginEnd="5dp"
+        android:enabled="true"
         android:text="@string/activ"
         android:textColor="@android:color/black"
-        android:textSize="15sp"
-        android:enabled="true" />
+        android:textSize="15sp" />
 
     <ImageButton
         android:layout_width="35dp"

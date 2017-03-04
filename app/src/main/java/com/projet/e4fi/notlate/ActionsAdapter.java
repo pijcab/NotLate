@@ -29,7 +29,7 @@ class ActionsAdapter extends ArrayAdapter {
 
         if (action != null) {
             actionName.setText(action.getName());
-            actionDuration.setText(String.valueOf(action.getHours() + " H : " + String.valueOf(action.getHours() + " min")));
+            actionDuration.setText(String.valueOf(action.getHours() + " H:" + String.valueOf(action.getMinutes() + " min")));
         }
 
         return convertView;

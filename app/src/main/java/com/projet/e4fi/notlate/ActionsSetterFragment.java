@@ -18,6 +18,7 @@ public class ActionsSetterFragment extends Fragment {
     private ArrayList<Action> actionsList;
     private Clock clockInstance;
     private Button okButton;
+    private Button returnButton;
     private FloatingActionButton addButton;
     private ActionsAdapter actionsAdapter;
     private ListView actionsListView;
@@ -37,6 +38,7 @@ public class ActionsSetterFragment extends Fragment {
         View res = inflater.inflate(R.layout.set_actions_fragment, container, false);
         actionsListView = (ListView) res.findViewById(R.id.actions_list);
         okButton = (Button) res.findViewById(R.id.button_ok);
+        returnButton = (Button) res.findViewById(R.id.button_return);
         addButton = (FloatingActionButton) res.findViewById(R.id.add_action);
 
         actionsList = clockInstance.getActionsList();
@@ -51,14 +53,25 @@ public class ActionsSetterFragment extends Fragment {
             public void onClick(View v) {
                 clockInstance.setActionsList(actionsList);
                 fragmentManager.popBackStack();
+
+                ClockSetterFragment clockSetter = new ClockSetterFragment();
+                clockSetter.setClockInstance(clockInstance);
             }
         });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                actionsList.add(new Action());
+                actionsList.add(0, new Action());
                 actionsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.popBackStack();
+
             }
         });
 
