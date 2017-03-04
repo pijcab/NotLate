@@ -25,11 +25,13 @@ class ActionsAdapter extends ArrayAdapter {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.action_element, parent, false);
         }
         TextView actionName = (TextView) convertView.findViewById(R.id.action_name);
-        TextView actionDuration = (TextView) convertView.findViewById(R.id.action_duration);
+        TextView actionDurationHours = (TextView) convertView.findViewById(R.id.action_duration_hours);
+        TextView actionDurationMinutes = (TextView) convertView.findViewById(R.id.action_duration_minutes);
 
         if (action != null) {
             actionName.setText(action.getName());
-            actionDuration.setText(String.valueOf(action.getHours() + " H:" + String.valueOf(action.getMinutes() + " min")));
+            actionDurationHours.setText(String.valueOf(action.getHours()));
+            actionDurationMinutes.setText(String.valueOf(action.getMinutes()));
         }
 
         return convertView;

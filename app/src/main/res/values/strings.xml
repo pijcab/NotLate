@@ -10,6 +10,7 @@
     <string name="ok">Ok</string>
     <string name="sonnerie">Sonnerie</string>
     <string name="actionListTitle">Liste des Actions</string>
+    <string name="content_description_clock_edit">Appuyez pour modifier le réveil, appui long pour le supprimer</string>
 
 
     <string-array name="sonnerie">
