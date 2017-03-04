@@ -42,9 +42,6 @@ public class ActionsSetterFragment extends Fragment {
         addButton = (FloatingActionButton) res.findViewById(R.id.add_action);
 
         actionsList = clockInstance.getActionsList();
-        Action test = new Action("brosser dents", 0, 10);
-        actionsList.add(test);
-
         actionsAdapter = new ActionsAdapter(getActivity().getApplicationContext(), actionsList);
         actionsListView.setAdapter(actionsAdapter);
 
@@ -71,9 +68,9 @@ public class ActionsSetterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 fragmentManager.popBackStack();
-
             }
         });
+
 
         return res;
     }

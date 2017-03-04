@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MainActivity extends Activity implements ClockSetterFragment.notifyClockChangeToActivity {
     private boolean isNew;
@@ -32,19 +31,7 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
         clockList = (ListView) findViewById(R.id.clock_list);
         buttonAdd = (FloatingActionButton) findViewById(R.id.add_clock_button);
 
-        Clock test = new Clock();
-        test.setDestination("TEST");
-        test.setArrivalHour(Calendar.getInstance().getTime().getHours());
-        test.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
-        Clock test2 = new Clock();
-        test2.setDestination("TEST BATAARD");
-        test2.setArrivalHour(Calendar.getInstance().getTime().getHours());
-        test2.setArrivalMinute(Calendar.getInstance().getTime().getMinutes());
-
         savedClocks = new ArrayList<Clock>();
-        savedClocks.add(test);
-        savedClocks.add(test2);
-
         clocksAdapter = new ClocksAdapter(getApplicationContext(), savedClocks);
         clockList.setAdapter(clocksAdapter);
 
@@ -63,13 +50,6 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
                         .addToBackStack(null)
                         .add(R.id.fragmentFrame, clockSetter, "clockSetterFragment")
                         .commit();
-
-//                frame = new CustomFrameLayout(getApplicationContext());
-//                frame.setLayoutParams(new FrameLayout.LayoutParams(
-//                        FrameLayout.LayoutParams.MATCH_PARENT,
-//                        FrameLayout.LayoutParams.MATCH_PARENT));
-//                frame.setId(View.generateViewId());
-//                mainView.addView(frame, 1);
             }
         });
 

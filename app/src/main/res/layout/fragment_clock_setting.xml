@@ -161,7 +161,6 @@
                 android:layout_marginStart="@dimen/left_right_margin"
                 android:layout_weight="1"
                 android:background="@drawable/default_text_border"
-                android:dropDownSelector="@android:drawable/arrow_down_float"
                 android:entries="@array/sonnerie" />
 
 

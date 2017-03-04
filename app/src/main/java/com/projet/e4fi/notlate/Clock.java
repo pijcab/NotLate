@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class Clock {
     final static int MONDAY = 0;
@@ -18,20 +17,14 @@ public class Clock {
     private int arrivalHour;
     private int arrivalMinute;
     private int wakeUpTime;
+    private int ringTone;
     private boolean isActivated;
     private boolean[] daysToRing;
     private String destination;
     private String depart;
-    private String selectedTransport;
-    private String selectedAvoid;
-    private String ringTone;
+    private int selectedTransport;
+    private int selectedAvoid;
     private ArrayList<Action> actionsList;
-
-    public void setDaysToRing(boolean[] daysToRing) {
-        this.daysToRing = daysToRing;
-    }
-
-    public HashMap<String, Integer> actions;
 
     @SuppressLint("SimpleDateFormat")
     public Clock() {
@@ -42,25 +35,25 @@ public class Clock {
         daysToRing = new boolean[7];
         destination = "";
         depart = "";
-        selectedAvoid = "";
-        selectedTransport = "";
-        ringTone = "";
+        selectedAvoid = 0;
+        selectedTransport = 0;
+        ringTone = 0;
         actionsList = new ArrayList<>();
     }
 
-    public String getSelectedTransport() {
+    public int getSelectedTransport() {
         return selectedTransport;
     }
 
-    public void setSelectedTransport(String selectedTransport) {
+    public void setSelectedTransport(int selectedTransport) {
         this.selectedTransport = selectedTransport;
     }
 
-    public String getSelectedAvoid() {
+    public int getSelectedAvoid() {
         return selectedAvoid;
     }
 
-    public void setSelectedAvoid(String selectedAvoid) {
+    public void setSelectedAvoid(int selectedAvoid) {
         this.selectedAvoid = selectedAvoid;
     }
 
@@ -80,11 +73,19 @@ public class Clock {
         this.arrivalMinute = arrivalMinute;
     }
 
-    public String getRingTone() {
+    public int getWakeUpTime() {
+        return wakeUpTime;
+    }
+
+    public void setWakeUpTime(int wakeUpTime) {
+        this.wakeUpTime = wakeUpTime;
+    }
+
+    public int getRingTone() {
         return ringTone;
     }
 
-    public void setRingTone(String ringTone) {
+    public void setRingTone(int ringTone) {
         this.ringTone = ringTone;
     }
 
@@ -102,6 +103,10 @@ public class Clock {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public void setDaysToRing(boolean[] daysToRing) {
+        this.daysToRing = daysToRing;
     }
 
     public String getDepart() {

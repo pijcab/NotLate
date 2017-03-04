@@ -22,12 +22,14 @@
 
 
     <string-array name="transport">
+        <item>Transport</item>
         <item>Voiture</item>
         <item>Vélo</item>
         <item>A pied</item>
     </string-array>
 
     <string-array name="evade">
+        <item>A éviter</item>
         <item>Péages</item>
         <item>Autoroutes</item>
         <item>Ferries</item>

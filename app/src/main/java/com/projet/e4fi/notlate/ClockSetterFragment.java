@@ -53,6 +53,7 @@ public class ClockSetterFragment extends Fragment {
         fragmentManager = mainActivity.getFragmentManager();
     }
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -144,9 +145,9 @@ public class ClockSetterFragment extends Fragment {
         clock.setArrivalMinute(timer.getCurrentMinute());
         clock.setDestination(destination.getText().toString());
         clock.setDepart(depart.getText().toString());
-        clock.setSelectedAvoid(toEvade.getSelectedItem().toString());
-        clock.setSelectedTransport(transport.getSelectedItem().toString());
-        clock.setRingTone(ringTone.getSelectedItem().toString());
+        clock.setSelectedAvoid(toEvade.getSelectedItemPosition());
+        clock.setSelectedTransport(transport.getSelectedItemPosition());
+        clock.setRingTone(ringTone.getSelectedItemPosition());
 
         boolean[] tab = new boolean[7];
         if (lundi.isChecked()) {
@@ -199,7 +200,8 @@ public class ClockSetterFragment extends Fragment {
         timer.setCurrentHour(clockInstance.getArrivalHour());
         timer.setCurrentMinute(clockInstance.getArrivalMinute());
         destination.setText(clockInstance.getDestination());
-//    ringTone.setSelection();
+        depart.setText(clockInstance.getDepart());
+        ringTone.setSelection(clockInstance.getRingTone());
         boolean[] tab = clockInstance.getDaysToRing();
         lundi.setChecked(tab[Clock.MONDAY]);
         mardi.setChecked(tab[Clock.TUESDAY]);
@@ -217,10 +219,8 @@ public class ClockSetterFragment extends Fragment {
         }
 
         actionDuration.setText(sumHour + ":" + sumMinutes);
-
-
-//        toEvade.setSelection(clockInstance.getSelectedAvoid());
-//        transport.setSelection(clockInstance.getSelectedTransport());
+        toEvade.setSelection(clockInstance.getSelectedAvoid());
+        transport.setSelection(clockInstance.getSelectedTransport());
 
     }
 
