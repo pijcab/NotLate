@@ -9,10 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by Kiros on 02/03/2017.
- */
-
 public class AlarmDB extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -105,14 +101,4 @@ public class AlarmDB extends SQLiteOpenHelper {
     public int deleteAlarm(long id) {
         return getWritableDatabase().delete(NOM_TABLE, "ID" + " = ?", new String[]{String.valueOf(id)});
     }
-
-    /*private ContentValues fillDatabase(Calendar calendar)
-    {
-        ContentValues values = new ContentValues();
-        values.put("HOUR",calendar.get(Calendar.HOUR));
-        values.put("MINUTES",calendar.get(Calendar.MINUTE));
-        values.put("DATE",calendar.get(Calendar.DATE));
-
-        return values;
-    }*/
 }

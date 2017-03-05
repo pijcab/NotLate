@@ -43,8 +43,10 @@ public class ActionsSetterFragment extends Fragment {
 
         actionsList = clockInstance.getActionsList();
         if (actionsList.size() == 0) {  // Populate list for testing purposes
-            Action a = new Action("Brosser les dents", 0, 15);
+            Action b = new Action("Déjeuner", 0, 5);
+            Action a = new Action("Brosser les dents", 0, 5);
             actionsList.add(a);
+            actionsList.add(b);
         }
 
         actionsAdapter = new ActionsAdapter(getActivity().getApplicationContext(), actionsList);
@@ -75,7 +77,6 @@ public class ActionsSetterFragment extends Fragment {
                 fragmentManager.popBackStack();
             }
         });
-
 
         return res;
     }

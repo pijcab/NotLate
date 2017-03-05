@@ -2,9 +2,6 @@ package com.projet.e4fi.notlate;
 
 import java.util.Calendar;
 
-/**
- * Created by Kiros on 02/03/2017.
- */
 
 public class AlarmModel {
 

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,10 +18,12 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
     private boolean isNew;
     private FloatingActionButton buttonAdd;
     private ListView clockList;
+    private Button stopAlarm;
     private ClockSetterFragment clockSetter;
     private ArrayList<Clock> savedClocks;
     private ClocksAdapter clocksAdapter;
     private FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
 
         isNew = false;
         clockList = (ListView) findViewById(R.id.clock_list);
+        stopAlarm = (Button) findViewById(R.id.stop_alarm);
+
+
         buttonAdd = (FloatingActionButton) findViewById(R.id.add_clock_button);
 
         savedClocks = new ArrayList<Clock>();
@@ -39,6 +46,8 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
             @Override
             public void onClick(View v) {
                 buttonAdd.hide();
+                stopAlarm.animate().alpha(0.0f).setDuration(200);
+                stopAlarm.setClickable(false);
                 isNew = true;
 
                 Clock newClock = new Clock();
@@ -57,6 +66,8 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 buttonAdd.hide();
+                stopAlarm.animate().alpha(0.0f).setDuration(200);
+                stopAlarm.setClickable(false);
                 isNew = false;
 
                 clockSetter = new ClockSetterFragment();
@@ -93,6 +104,21 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
                 return true;
             }
         });
+
+        stopAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //On dit à l'alarme qu'on a appuyé sur le bouton "desactiver alarme"
+                Intent intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+                intent.putExtra("extra", "alarme desactivee");
+                //On indique quelle est la valeur choisi dans le spinner
+                intent.putExtra("musique choisie", 0);
+                sendBroadcast(intent);
+
+            }
+        });
+
+
     }
 
     @Override
@@ -101,10 +127,11 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
 
         if (count == 0) {
             super.onBackPressed();
-            //additional code
         } else if (count <= 1) {
             fragmentManager.popBackStack();
             buttonAdd.show();
+            stopAlarm.animate().alpha(1.0f).setDuration(200);
+            stopAlarm.setClickable(true);
         } else {
             fragmentManager.popBackStack();
         }
@@ -116,10 +143,4 @@ public class MainActivity extends Activity implements ClockSetterFragment.notify
             savedClocks.add(0, clock); //permet l'ajout a la liste des clocks si le reveil n'existait pas deja
         clocksAdapter.notifyDataSetChanged();
     }
-//    private static void toggleVisibility(View... views) {
-//        for (View view : views) {
-//            boolean isVisible = view.getVisibility() == View.VISIBLE;
-//            view.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
-//        }
-//    }
 }

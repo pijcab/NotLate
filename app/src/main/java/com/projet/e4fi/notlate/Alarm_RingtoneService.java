@@ -12,12 +12,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Random;
-
-/**
- * Created by Kiros on 19/02/2017.
- */
-
 public class Alarm_RingtoneService extends Service {
 
 
@@ -42,7 +36,7 @@ public class Alarm_RingtoneService extends Service {
 
         NotificationManager notification_manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // On créer un intent pour communiquer avec la class MainAlarme
-        Intent intent_notification_to_alarm_activity = new Intent(this.getApplicationContext(), Alarm_RingtoneService.class);
+        Intent intent_notification_to_alarm_activity = new Intent(this.getApplicationContext(), MainActivity.class);
         //On créer un pending intent
         PendingIntent pending_intent_to_alarm_activity = PendingIntent.getActivity(this, 0, intent_notification_to_alarm_activity, 0);
 
@@ -90,32 +84,20 @@ public class Alarm_RingtoneService extends Service {
             String liste_musique[] = {"zelda", "mario", "dragon_ball_z_ost", "samba_de_janeiro"};
 
             switch (musique_choisi_id) {
+
                 case 0:
-                    //Ici on va jouer une musique aléatoire
-                    //Si l'utilisateur oublie de choisir une musique
-                    int min_id = 1;
-                    int max_id = 4;
-
-                    Random random_number = new Random();
-                    musique_choisi_id = random_number.nextInt(max_id + min_id);
-                    Log.e("Musique id sw est : ", musique_choisi_id.toString());
-                    //String musique_a_jouer = liste_musique[musique_choisi_id];
-                    // = MediaPlayer.create(this, R.raw.musique_choisi_id);
-                    //media_player.start();
-
-                case 1:
                     media_player = MediaPlayer.create(this, R.raw.zelda);
                     media_player.start();
                     break;
-                case 2:
+                case 1:
                     media_player = MediaPlayer.create(this, R.raw.mario);
                     media_player.start();
                     break;
-                case 3:
+                case 2:
                     media_player = MediaPlayer.create(this, R.raw.dragon_ball_z_ost);
                     media_player.start();
                     break;
-                case 4:
+                case 3:
                     media_player = MediaPlayer.create(this, R.raw.samba_de_janeiro);
                     media_player.start();
                     break;
@@ -153,9 +135,6 @@ public class Alarm_RingtoneService extends Service {
         } else {
             Log.e("Dans le else", "IDK");
         }
-
-        //media_player = MediaPlayer.create(this,R.raw.zelda);
-        //media_player.start();
 
         return START_NOT_STICKY;
     }

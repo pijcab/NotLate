@@ -44,7 +44,6 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class ClockSetterFragment extends Fragment implements LocationListener {
 
-    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 123;
     private Activity mainActivity;
     private Clock clockInstance;
     private TimePicker timer;
@@ -68,7 +67,6 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
     private AlarmDB myDatabase;
     private PendingIntent pendingintent;
     AlarmManager Alarm_Manager;
-    //Calendar heure_arrive;
     Calendar heure_reveil;
     Calendar temps_total;
     Calendar heure_arrive;
@@ -165,6 +163,8 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
                 notifyClockInterface.notififyClockListChange(clockInstance);
                 fragmentManager.popBackStack();
                 ((FloatingActionButton) mainActivity.findViewById(R.id.add_clock_button)).show();
+                mainActivity.findViewById(R.id.stop_alarm).setClickable(true);
+                mainActivity.findViewById(R.id.stop_alarm).animate().alpha(1.0f).setDuration(200);
             }
 
         });
@@ -174,9 +174,10 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
             public void onClick(View v) {
                 fragmentManager.popBackStack();
                 ((FloatingActionButton) mainActivity.findViewById(R.id.add_clock_button)).show();
+                mainActivity.findViewById(R.id.stop_alarm).setClickable(true);
+                mainActivity.findViewById(R.id.stop_alarm).animate().alpha(1.0f).setDuration(200);
             }
         });
-
         return res;
     }
 
@@ -193,41 +194,16 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
         heure_arrive.set(Calendar.MINUTE, timer.getCurrentMinute());
         this.recupTempsTrajet(origin, dest, mode, getActivity().getApplicationContext());
         Log.e("res tmp traj", String.valueOf(res));
-        /*while(val == 0) {
-        }*/
-        /*if(res == 0)
-        {
-            AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                    .setTitle("Erreur")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setMessage("La destination est inconnue")
-                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-        }*/
-        /*try {
-            wait(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        /*temps_total = TransfromIntoCalendar(res);
-        Log.e("Heure trajet",String.valueOf((temps_total.get(Calendar.HOUR))));
-        Log.e("minute trajet",String.valueOf((temps_total.get(Calendar.HOUR))));
-        heure_reveil = CalculHeureReveil(heure_arrive,temps_total);*/
     }
 
     public void recupTempsTrajet(String origin, String dest, String mode, final Context context) {
         RequestQueue queue = Volley.newRequestQueue(context);
         origin = origin.replaceAll("\\s", "+");
         dest = dest.replaceAll("\\s", "+");
-        if (mode == "Voiture") {
+        if (mode.equals("Voiture")) {
             mode = "driving";
         }
-        if (mode == "Vélo") {
+        if (mode.equals("Vélo")) {
             mode = "bicycling";
         }
         String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&mode=" + mode + "&language=fr-FR&key=AIzaSyArtd_4Nsl-7XN8dj4oZzJPQtHU0d1Be9U";
@@ -238,8 +214,6 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
                         try {
                             Log.wtf("before res dans try", String.valueOf(res));
                             res = response.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").getInt("value");
-                            /*while(res == 0){
-                            }*/
                             if (res != 0) {
                                 temps_total = TransfromIntoCalendar(res);
                                 Log.e("Heure trajet", String.valueOf((temps_total.get(Calendar.HOUR))));
@@ -262,7 +236,6 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
                                         .show();
                             }
                             Log.wtf("after res dans try", String.valueOf(res));
-                            //temps_total = TransfromIntoCalendar(val);
 
                         } catch (JSONException e) {
                             Log.e("Dans le exception", "excdfs");
@@ -436,7 +409,8 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
 
     }
 
-    /*public void test() {
+    //region Fonction localisation fonctionelle mais bloqué par les permissions
+    /*public void getLocation() {
 
         int permissionCheck = ContextCompat.checkSelfPermission(mainActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -489,6 +463,31 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
 
     }*/
 
+    /*Spinner spinner = (Spinner)mainActivity.findViewById(R.id.ring_tone);
+    // Create an ArrayAdapter using the string array and a default spinner layout
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.sonnerie, android.R.layout.simple_spinner_item);
+    // Specify the layout to use when the list of choices appears
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    // Apply the adapter to the spinner
+    spinner.setAdapter(adapter);
+    //On créer un OnClickListener
+    spinner.setOnItemSelectedListener(this);
+
+}
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        choose_sound = (int) id;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }*/
+    //endregion
+
+
     private PendingIntent createPendingIntent(Context context, AlarmModel AlarmM) {
         Intent intent = new Intent(context, Alarm_Receiver.class);
         intent.putExtra("ID", AlarmM.id);
@@ -497,7 +496,7 @@ public class ClockSetterFragment extends Fragment implements LocationListener {
         intent.putExtra("MINUTES", AlarmM.Minutes);
         intent.putExtra("ID_MUSIQUE", AlarmM.MusiqueId);
         intent.putExtra("extra", "alarme activee");
-        intent.putExtra("musique choisie", choose_sound);
+        intent.putExtra("musique choisie", clockInstance.getRingTone());
         Log.e("id musique", String.valueOf(clockInstance.getRingTone()));
 
         return PendingIntent.getBroadcast(mainActivity, AlarmM.id, intent, PendingIntent.FLAG_UPDATE_CURRENT);

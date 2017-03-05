@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-/**
- * Created by Kiros on 19/02/2017.
- */
-
 public class Alarm_Receiver extends BroadcastReceiver {
 
     public static String WAKE = "C'est l'heure !";
