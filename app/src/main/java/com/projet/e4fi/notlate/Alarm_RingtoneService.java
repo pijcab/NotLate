@@ -42,7 +42,7 @@ public class Alarm_RingtoneService extends Service {
 
         NotificationManager notification_manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // On créer un intent pour communiquer avec la class MainAlarme
-        Intent intent_notification_to_alarm_activity = new Intent(this.getApplicationContext(), MainActivity.class);
+        Intent intent_notification_to_alarm_activity = new Intent(this.getApplicationContext(), Alarm_RingtoneService.class);
         //On créer un pending intent
         PendingIntent pending_intent_to_alarm_activity = PendingIntent.getActivity(this, 0, intent_notification_to_alarm_activity, 0);
 

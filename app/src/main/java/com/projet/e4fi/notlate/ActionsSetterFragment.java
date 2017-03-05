@@ -42,6 +42,11 @@ public class ActionsSetterFragment extends Fragment {
         addButton = (FloatingActionButton) res.findViewById(R.id.add_action);
 
         actionsList = clockInstance.getActionsList();
+        if (actionsList.size() == 0) {  // Populate list for testing purposes
+            Action a = new Action("Brosser les dents", 0, 15);
+            actionsList.add(a);
+        }
+
         actionsAdapter = new ActionsAdapter(getActivity().getApplicationContext(), actionsList);
         actionsListView.setAdapter(actionsAdapter);
 

@@ -1,11 +1,19 @@
 package com.projet.e4fi.notlate;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.icu.util.Calendar;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +23,28 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class ClockSetterFragment extends Fragment {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+import static android.content.Context.ALARM_SERVICE;
+
+public class ClockSetterFragment extends Fragment implements LocationListener {
+
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 123;
     private Activity mainActivity;
     private Clock clockInstance;
     private TimePicker timer;
@@ -37,7 +64,20 @@ public class ClockSetterFragment extends Fragment {
     private Button backButton;
     private TextView actionDuration;
     public notifyClockChangeToActivity notifyClockInterface;
+    private int choose_sound;
+    private AlarmDB myDatabase;
+    private PendingIntent pendingintent;
+    AlarmManager Alarm_Manager;
+    //Calendar heure_arrive;
+    Calendar heure_reveil;
+    Calendar temps_total;
+    Calendar heure_arrive;
+    ArrayList<AlarmModel> arrayAlarmM;
+    Context context;
 
+
+    private int val = 0;
+    int res = 0;
     private ImageButton actionsEdit;
     private ActionsSetterFragment actionSetter;
     private FragmentManager fragmentManager;
@@ -51,6 +91,10 @@ public class ClockSetterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = getActivity();
         fragmentManager = mainActivity.getFragmentManager();
+        Alarm_Manager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
+        context = mainActivity.getApplicationContext();
+        myDatabase = new AlarmDB(context);
+
     }
 
 
@@ -117,7 +161,7 @@ public class ClockSetterFragment extends Fragment {
             public void onClick(View v) {
                 computeWakeUpTime();
                 setOptionsToClock(clockInstance);
-                activateClock();
+                //activateClock();
                 notifyClockInterface.notififyClockListChange(clockInstance);
                 fragmentManager.popBackStack();
                 ((FloatingActionButton) mainActivity.findViewById(R.id.add_clock_button)).show();
@@ -138,6 +182,153 @@ public class ClockSetterFragment extends Fragment {
 
 
     public void computeWakeUpTime() {
+        String origin = depart.getText().toString();
+        String dest = destination.getText().toString();
+        String mode = transport.getSelectedItem().toString();
+        int trajetDuration = -1;
+        heure_arrive = Calendar.getInstance();
+        temps_total = Calendar.getInstance();
+
+        heure_arrive.set(Calendar.HOUR, timer.getCurrentHour());
+        heure_arrive.set(Calendar.MINUTE, timer.getCurrentMinute());
+        this.recupTempsTrajet(origin, dest, mode, getActivity().getApplicationContext());
+        Log.e("res tmp traj", String.valueOf(res));
+        /*while(val == 0) {
+        }*/
+        /*if(res == 0)
+        {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("Erreur")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage("La destination est inconnue")
+                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }*/
+        /*try {
+            wait(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        /*temps_total = TransfromIntoCalendar(res);
+        Log.e("Heure trajet",String.valueOf((temps_total.get(Calendar.HOUR))));
+        Log.e("minute trajet",String.valueOf((temps_total.get(Calendar.HOUR))));
+        heure_reveil = CalculHeureReveil(heure_arrive,temps_total);*/
+    }
+
+    public void recupTempsTrajet(String origin, String dest, String mode, final Context context) {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        origin = origin.replaceAll("\\s", "+");
+        dest = dest.replaceAll("\\s", "+");
+        if (mode == "Voiture") {
+            mode = "driving";
+        }
+        if (mode == "Vélo") {
+            mode = "bicycling";
+        }
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origin + "&destinations=" + dest + "&mode=" + mode + "&language=fr-FR&key=AIzaSyArtd_4Nsl-7XN8dj4oZzJPQtHU0d1Be9U";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.wtf("before res dans try", String.valueOf(res));
+                            res = response.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration").getInt("value");
+                            /*while(res == 0){
+                            }*/
+                            if (res != 0) {
+                                temps_total = TransfromIntoCalendar(res);
+                                Log.e("Heure trajet", String.valueOf((temps_total.get(Calendar.HOUR))));
+                                Log.e("minute trajet", String.valueOf((temps_total.get(Calendar.HOUR))));
+                                sumActions(temps_total);
+                                heure_reveil = CalculHeureReveil(heure_arrive, temps_total);
+                                SetAlarm(heure_reveil);
+                                res = 0;
+                            } else {
+                                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                                        .setTitle("Erreur")
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setMessage("La destination est inconnue")
+                                        .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                            Log.wtf("after res dans try", String.valueOf(res));
+                            //temps_total = TransfromIntoCalendar(val);
+
+                        } catch (JSONException e) {
+                            Log.e("Dans le exception", "excdfs");
+                            e.printStackTrace();
+                            res = -1;
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.print("erreur");
+            }
+        });
+        queue.add(stringRequest);
+    }
+
+    private void sumActions(Calendar cal_trajet) {
+        int sum_hour = 0;
+        int sum_minutes = 0;
+
+        for (Action a : clockInstance.getActionsList()) {
+            sum_hour += a.getHours();
+            sum_minutes += a.getMinutes();
+        }
+
+        cal_trajet.add(Calendar.HOUR, sum_hour);
+        cal_trajet.add(Calendar.MINUTE, sum_minutes);
+    }
+
+    private Calendar TransfromIntoCalendar(int temps) {
+        int heure, minutes;
+        Calendar calendar = Calendar.getInstance();
+
+        heure = temps / 3600;
+        minutes = temps / 60;
+
+        Log.e("Heure TIC", String.valueOf(heure));
+        Log.e("Minutes TIC", String.valueOf(minutes));
+
+        calendar.set(Calendar.HOUR, heure);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        return calendar;
+    }
+
+    private Calendar CalculHeureReveil(Calendar heure_arrive, Calendar temps_total) {
+        Calendar heure_reveil = Calendar.getInstance();
+
+        Log.e("heure trajet", String.valueOf(temps_total.get(Calendar.HOUR)));
+        Log.e("minute trajet", String.valueOf(temps_total.get(Calendar.MINUTE)));
+
+        Log.e("heure arrive", String.valueOf(heure_arrive.get(Calendar.HOUR)));
+        Log.e("minutes arrive", String.valueOf(heure_arrive.get(Calendar.MINUTE)));
+
+
+        int heures = heure_arrive.get(Calendar.HOUR) - temps_total.get(Calendar.HOUR);
+        int minutes = heure_arrive.get(Calendar.MINUTE) - temps_total.get(Calendar.MINUTE);
+
+        heure_reveil.set(Calendar.HOUR, heures);
+        heure_reveil.set(Calendar.MINUTE, minutes);
+
+        Log.e("heure reveil", String.valueOf(heure_reveil.get(Calendar.HOUR)));
+        Log.e("minute reveil", String.valueOf(heure_reveil.get(Calendar.MINUTE)));
+
+        return heure_reveil;
     }
 
     public void setOptionsToClock(Clock clock) {
@@ -176,6 +367,26 @@ public class ClockSetterFragment extends Fragment {
     }
 
     public void activateClock() {
+        SetAlarm(heure_reveil);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 
@@ -221,6 +432,170 @@ public class ClockSetterFragment extends Fragment {
         actionDuration.setText(sumHour + ":" + sumMinutes);
         toEvade.setSelection(clockInstance.getSelectedAvoid());
         transport.setSelection(clockInstance.getSelectedTransport());
+
+
+    }
+
+    /*public void test() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(mainActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(mainActivity,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            }
+        }
+
+        LocationManager locationManager = (LocationManager) mainActivity.getSystemService(Context.LOCATION_SERVICE);
+        String provider = locationManager.getBestProvider(new Criteria(), false);
+        Location location = locationManager.getLastKnownLocation(provider);
+        if (location == null) {
+            Toast.makeText(mainActivity, "Check your provider", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.i("New Location", "lat: " + location.getLatitude());
+            Log.i("New Location", "lng: " + location.getLongitude());
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.i("Location", "lat: " + location.getLatitude());
+        Log.i("Location", "lng: " + location.getLongitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }*/
+
+    private PendingIntent createPendingIntent(Context context, AlarmModel AlarmM) {
+        Intent intent = new Intent(context, Alarm_Receiver.class);
+        intent.putExtra("ID", AlarmM.id);
+        intent.putExtra("DATE", AlarmM.Date);
+        intent.putExtra("HOUR", AlarmM.Hour);
+        intent.putExtra("MINUTES", AlarmM.Minutes);
+        intent.putExtra("ID_MUSIQUE", AlarmM.MusiqueId);
+        intent.putExtra("extra", "alarme activee");
+        intent.putExtra("musique choisie", choose_sound);
+        Log.e("id musique", String.valueOf(clockInstance.getRingTone()));
+
+        return PendingIntent.getBroadcast(mainActivity, AlarmM.id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private int GetLastAlarmId(ArrayList<AlarmModel> List_AlarmM) {
+        int size, last_id, id;
+        if (List_AlarmM != null) {
+            size = List_AlarmM.size() - 1;
+            last_id = arrayAlarmM.get(size).id;
+            id = last_id + 1;
+        } else {
+            id = 0;
+        }
+
+        return id;
+    }
+
+    private int GetPendingId(PendingIntent PI, ArrayList<AlarmModel> alarms) {
+        ArrayList<PendingIntent> arrayPending = new ArrayList<>();
+        int id = -2;
+
+        Log.e("dans le pending", "getid");
+
+        if (alarms != null) {
+            for (AlarmModel alarm : alarms) {
+                PendingIntent pIntent = createPendingIntent(context, alarm);
+                /*arrayPending.add(pendingintent);
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager.cancel(pIntent);*/
+
+                if (pIntent.equals(PI)) {
+                    id = alarm.id;
+                } else id = -1;
+
+            }
+        }
+
+        return id;
+    }
+
+    public void cancelAlarms(Context context) {
+        AlarmDB myDB = new AlarmDB(context);
+
+        ArrayList<AlarmModel> alarms = myDB.getAlarms();
+
+        if (alarms != null) {
+            for (AlarmModel alarm : alarms) {
+                PendingIntent pIntent = createPendingIntent(context, alarm);
+
+                AlarmManager alarmManager = (AlarmManager) mainActivity.getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(pIntent);
+            }
+        }
+    }
+
+    private java.util.Calendar SetUpCalendar(Calendar cal) {
+        java.util.Calendar now_calendar = java.util.Calendar.getInstance(Locale.FRANCE);
+        now_calendar.set(java.util.Calendar.HOUR, cal.get(java.util.Calendar.HOUR));
+        now_calendar.set(java.util.Calendar.MINUTE, cal.get(java.util.Calendar.MINUTE));
+        now_calendar.set(java.util.Calendar.SECOND, 0);
+        now_calendar.set(java.util.Calendar.DAY_OF_WEEK, cal.get(java.util.Calendar.DAY_OF_WEEK));
+
+        return now_calendar;
+    }
+
+    private void SetAlarm(Calendar given_calendar) {
+        //On initialise le Calendar qui sera utilise pour configurer le reveil
+        //Il contient les informations (jour, heures, minutes) auxquels doit sonner le reveil
+        java.util.Calendar now_calendar = java.util.Calendar.getInstance(Locale.FRANCE);
+        now_calendar = SetUpCalendar(given_calendar);
+
+        //Si l'heure a laquelle doit sonner le reveil est deja passer, on initialise le reveil pour la semaine prochaine
+        if (now_calendar.before(java.util.Calendar.getInstance())) {
+            now_calendar.add(java.util.Calendar.DAY_OF_WEEK, 7);
+        }
+
+        String time = "Reveil active à " + now_calendar.get(Calendar.HOUR) + " : " + now_calendar.get(Calendar.MINUTE);
+        Toast.makeText(context, time, Toast.LENGTH_LONG).show();
+
+        //On recupere les alarmes deja stocke dans la base de donnees
+        arrayAlarmM = myDatabase.getAlarms();
+
+        //On récupère le dernier ID utilse les alarmes dans la BDD
+        int _id = GetLastAlarmId(arrayAlarmM);
+
+        //On instancie l'objet AlarmM et on remplit ses differents champs
+        AlarmModel AlarmM = new AlarmModel();
+        AlarmM.BuildAlarmModel(now_calendar, _id, choose_sound);
+
+        //On ajoute la nouvelle alarme dans la BDD
+        myDatabase.createAlarm(AlarmM);
+
+        //on cree un pendingIntent
+        pendingintent = createPendingIntent(mainActivity, AlarmM);
+
+        //On planifie l'alarme
+        Alarm_Manager.set(AlarmManager.RTC_WAKEUP, now_calendar.getTimeInMillis(), pendingintent);
 
     }
 

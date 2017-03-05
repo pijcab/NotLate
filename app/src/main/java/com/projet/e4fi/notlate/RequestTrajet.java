@@ -1,5 +1,8 @@
 package com.projet.e4fi.notlate;
 
+/**
+ * Created by Dylan on 04/03/2017.
+ */
 
 public class RequestTrajet {
 
