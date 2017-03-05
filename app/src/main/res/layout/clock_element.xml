@@ -31,15 +31,14 @@
         android:layout_marginStart="5dp"
         android:background="@drawable/default_text_border"
         android:clickable="false"
-        android:maxLines="1"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:gravity="center"
         android:text="Nom"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:singleLine="true"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/clock_time"

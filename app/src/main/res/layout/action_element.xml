@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/action"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingBottom="10dp"
     android:paddingEnd="60dp">
@@ -14,14 +14,12 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:background="@drawable/default_text_border"
-        android:gravity="center_vertical"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:maxLines="1"
-        android:nextFocusForward="@+id/action_duration_hours"
-        android:text="Nom Action"
+        android:gravity="center"
+        android:hint="Nom de l'action"
+        android:singleLine="true"
         android:textAlignment="center"
         android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"
         android:textSize="20sp" />
 
     <EditText
@@ -29,13 +27,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/default_text_border"
-        android:gravity="center_vertical"
-        android:imeOptions="actionNext"
-        android:inputType="number"
-        android:maxLines="1"
-        android:text="00"
+        android:gravity="center"
+        android:hint="H"
         android:textAlignment="center"
         android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"
         android:textSize="20sp" />
 
     <TextView
@@ -43,25 +39,23 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text=":"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@id/action_duration_minutes"
+        android:id="@+id/action_duration_minutes"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/default_text_border"
-        android:gravity="center_vertical"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:maxLines="1"
-        android:text="00"
+        android:gravity="center"
+        android:hint="min"
         android:textAlignment="center"
         android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"
         android:textSize="20sp" />
 
 </LinearLayout>

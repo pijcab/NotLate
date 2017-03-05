@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="5dp"
-
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="5dp"
@@ -17,13 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
     </ListView>
 
-    <FrameLayout
-        android:id="@+id/fragmentFrame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+    <Button
+        android:id="@+id/stop_alarm"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/clock_list"
+        android:layout_marginStart="5dp"
+        android:text="Arreter l'alarme" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_clock_button"
@@ -39,5 +40,10 @@
         app:fabSize="mini"
         app:rippleColor="@color/colorAccent"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <FrameLayout
+        android:id="@+id/fragmentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
 </RelativeLayout>
